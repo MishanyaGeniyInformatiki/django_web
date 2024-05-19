@@ -33,3 +33,29 @@ form {
     margin-top: 50px;
 }
 
+.features {
+    margin-left: 50%;
+    width: 500px;
+    color: #7FFFD4;
+}
+
+.question_name {
+    color: #000080;
+    font-size: 24px;
+}
+
+.correct_user_answer {
+    font-size: 20px;
+    color: #32CD32;
+    margin-left: 10%;
+}
+
+.uncorrect_user_answer {
+    font-size: 20px;
+    color: #c90808;
+    margin-left: 10%;
+}
+
+.question_text {
+    font-size: 18px;
+}
