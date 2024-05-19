@@ -1,0 +1,87 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Вопросы</h1>
+    </div>
+
+    {% for el in data_forms %}
+        <div class="question">
+            <div class="question_name">
+                {{ el.name }}
+            </div>
+            <div class="question_text">
+                {{ el.question_text }}
+            </div>
+            {% if el.user_answer is None %}
+                <form action="{% url 'questions' %}" method="post">
+                    {% csrf_token %}
+                    {{ el.form.answer }}
+                    <input type="hidden" name="correct_answer" value="{{el.correct_answer}}">
+                    <input type="hidden" name="question_id" value="{{el.question_id}}">
+    <!--                {{ form2.answer }}-->
+    <!--                <input type="text" placeholder="Ответ" class="form-control">-->
+                    <button class="btn btn-success" type="submit">Отправить ответ</button>
+                </form>
+            {% else %}
+                <form action="{% url 'questions' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="answer" maxlength="255" required="" value="{{ el.user_answer }}" id="id_answer">
+                    <input type="hidden" name="correct_answer" value="{{el.correct_answer}}">
+                    <input type="hidden" name="question_id" value="{{el.question_id}}">
+    <!--                {{ form2.answer }}-->
+    <!--                <input type="text" placeholder="Ответ" class="form-control">-->
+                    <button class="btn btn-success" type="submit">Отправить ответ</button>
+                </form>
+            {% endif %}
+            <div class="print_result">
+                {% if el.correct_input is False %}
+                    Некорректный ввод
+                {%else%}
+                    {% if el.user_answer is not None %}
+                        {% if el.user_answer == el.correct_answer %}
+                        <div class="correct_user_answer">
+                            Верный ответ!
+                        </div>
+                        {%else%}
+                        <div class="uncorrect_user_answer">
+                            Неверный ответ!
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </div>
+
+
+        </div>
+
+    {% endfor %}
+
+<!--    <form method="post" enctype="multipart/form-data">-->
+<!--        {% csrf_token %}-->
+<!--        {{ user_profile_form.as_p }}-->
+<!--        <button type="submit">Submit Profile</button>-->
+<!--    </form>-->
+
+<!--    <h1>Avatar Upload Form</h1>-->
+<!--    <form method="post" enctype="multipart/form-data">-->
+<!--        {% csrf_token %}-->
+<!--        {{ avatar_upload_form.as_p }}-->
+<!--        <button type="submit">Upload Avatar</button>-->
+<!--    </form>-->
+
+<!--    <form action="{% url 'questions' %}" method="post">-->
+<!--        {% csrf_token %}-->
+<!--        {{ form.name }}-->
+<!--        {{ form.question_text }}-->
+
+<!--&lt;!&ndash;        <input type="text" placeholder="Введите имя" class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;        <input type="text" placeholder="Введите фамилию" class="form-control">&ndash;&gt;-->
+<!--&lt;!&ndash;        <input type="text" placeholder="Ответ на задание" class="form-control">&ndash;&gt;-->
+<!--        <button class="btn btn-success" type="submit">Отправить ответ</button>-->
+<!--    </form>-->
+
+{% endblock %}
